@@ -14,7 +14,7 @@ $$
 Z = \sum_{i=1}^{n}\sum_{j=1}^{n} a_{ij} \cdot x_i \cdot x_j
 $$
 
-onde \(x_i \in \{0,1\}\).
+onde $$x_i \in \{0,1\}$$.
 
 A versão **MAX-SC-QBF** adiciona **restrições de cobertura de conjuntos (Set Cover)**, garantindo que todos os elementos do universo sejam cobertos por pelo menos um subconjunto escolhido.
 
@@ -26,12 +26,12 @@ O projeto contém as seguintes partes principais:
 
 1. **Geração de instâncias (`gerar_instance`)**  
    - Cria instâncias aleatórias do problema, gerando subconjuntos que cobrem todos os elementos do universo.
-   - Gera também os coeficientes da matriz quadrática \(A\), utilizada na função objetivo.
+   - Gera também os coeficientes da matriz quadrática $$A$$, utilizada na função objetivo.
 
 2. **Resolução do modelo (`solve_max_sc_qbf_linearized`)**  
    - Constrói um modelo no **Gurobi** com:
-     - Variáveis binárias \(x_i\): seleção dos subconjuntos.
-     - Variáveis binárias \(y_{ij}\): linearização do produto \(x_i \cdot x_j\).
+     - Variáveis binárias $$x_i$$: seleção dos subconjuntos.
+     - Variáveis binárias $$y_{ij}$$: linearização do produto $$x_i \cdot x_j$$.
    - Define:
      - **Função objetivo linearizada**.
      - **Restrições de linearização**.
@@ -39,7 +39,7 @@ O projeto contém as seguintes partes principais:
    - Executa a otimização com limite de tempo de **10 minutos**.
 
 3. **Execução principal**  
-   - Solicita ao usuário o valor de \(n\).
+   - Solicita ao usuário o valor de $$n$$.
    - Gera e salva a instância em arquivo.
    - Chama o solver e registra os resultados em arquivo de log.
 
@@ -75,7 +75,7 @@ pip install gurobipy
 
 Dependendo do status da otimização, a saída pode apresentar:
 
-- **Solução ótima encontrada**: valor de \(Z\) e subconjuntos selecionados.  
+- **Solução ótima encontrada**: valor de $$Z$$ e subconjuntos selecionados.  
 - **Solução dentro do limite de tempo**: melhor solução encontrada até o momento e *gap de otimalidade*.  
 - **Modelo inviável**: quando não existe solução viável.  
 
