@@ -10,9 +10,9 @@ A resolução é feita utilizando o **solver Gurobi**, com linearização da fun
 
 O **MAX-QBF** busca maximizar uma função quadrática binária da forma:
 
-\[$$
+$$
 Z = \sum_{i=1}^{n}\sum_{j=1}^{n} a_{ij} \cdot x_i \cdot x_j
-$$\]
+$$
 
 onde \(x_i \in \{0,1\}\).
 
