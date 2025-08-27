@@ -1,0 +1,147 @@
+Set parameter TimeLimit to value 600
+Set parameter LogFile to value "log50variaveis.txt"
+Iniciando otimização do MAX-SC-QBF (Modelo Linearizado)...
+Gurobi Optimizer version 12.0.3 build v12.0.3rc0 (win64 - Windows 10.0 (19045.2))
+
+CPU model: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz, instruction set [SSE2|AVX|AVX2]
+Thread count: 4 physical cores, 8 logical processors, using up to 8 threads
+
+Non-default parameters:
+TimeLimit  600
+
+Optimize a model with 3826 rows, 2550 columns and 8902 nonzeros
+Model fingerprint: 0x42888da0
+Variable types: 0 continuous, 2550 integer (2550 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+00]
+  Objective range  [1e+00, 1e+01]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Found heuristic solution: objective 53.0000000
+Presolve removed 2072 rows and 1333 columns
+Presolve time: 0.05s
+Presolved: 1754 rows, 1217 columns, 4114 nonzeros
+Variable types: 0 continuous, 1217 integer (1217 binary)
+
+Root relaxation: objective 1.603500e+03, 943 iterations, 0.03 seconds (0.03 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1603.50000    0  636   53.00000 1603.50000  2925%     -    0s
+H    0     0                     272.0000000 1603.50000   490%     -    0s
+H    0     0                     359.0000000 1603.50000   347%     -    0s
+H    0     0                     400.0000000 1603.50000   301%     -    0s
+H    0     0                     409.0000000 1603.50000   292%     -    0s
+H    0     0                     416.0000000 1334.00000   221%     -    0s
+H    0     0                     435.0000000 1030.77083   137%     -    0s
+H    0     0                     452.0000000 1030.77083   128%     -    0s
+     0     0 1030.77083    0  739  452.00000 1030.77083   128%     -    0s
+     0     0  957.62500    0  769  452.00000  957.62500   112%     -    0s
+     0     0  934.50000    0  793  452.00000  934.50000   107%     -    0s
+     0     0  932.87500    0  789  452.00000  932.87500   106%     -    1s
+     0     0  932.62500    0  779  452.00000  932.62500   106%     -    1s
+H    0     0                     480.0000000  714.76196  48.9%     -    3s
+H    0     0                     491.0000000  714.76196  45.6%     -    3s
+     0     0  714.76196    0 1105  491.00000  714.76196  45.6%     -    3s
+H    0     0                     504.0000000  676.77685  34.3%     -    5s
+H    0     0                     520.0000000  676.77685  30.1%     -    5s
+H    0     0                     523.0000000  676.77685  29.4%     -    5s
+H    0     0                     542.0000000  676.77685  24.9%     -    5s
+H    0     0                     543.0000000  676.77685  24.6%     -    5s
+H    0     0                     545.0000000  676.77685  24.2%     -    5s
+H    0     0                     549.0000000  676.77685  23.3%     -    5s
+H    0     0                     558.0000000  676.77685  21.3%     -    5s
+H    0     0                     568.0000000  676.77685  19.2%     -    5s
+H    0     0                     574.0000000  676.77685  17.9%     -    5s
+H    0     0                     579.0000000  676.77685  16.9%     -    5s
+     0     0  676.77685    0 1138  579.00000  676.77685  16.9%     -    5s
+     0     0  668.47362    0 1139  579.00000  668.47362  15.5%     -    5s
+     0     0  665.62726    0 1144  579.00000  665.62726  15.0%     -    6s
+     0     0  664.48018    0 1141  579.00000  664.48018  14.8%     -    6s
+     0     0  638.67375    0 1161  579.00000  638.67375  10.3%     -    8s
+     0     0  629.34088    0 1181  579.00000  629.34088  8.69%     -   10s
+     0     0  626.81149    0 1180  579.00000  626.81149  8.26%     -   11s
+     0     0  625.78661    0 1177  579.00000  625.78661  8.08%     -   11s
+     0     0  619.17828    0 1176  579.00000  619.17828  6.94%     -   13s
+     0     0  615.44303    0 1181  579.00000  615.44303  6.29%     -   14s
+     0     0  614.33726    0 1179  579.00000  614.33726  6.10%     -   15s
+     0     0  612.62051    0 1183  579.00000  612.62051  5.81%     -   15s
+     0     0  612.62051    0 1178  579.00000  612.62051  5.81%     -   15s
+     0     2  612.62051    0 1177  579.00000  612.62051  5.81%     -   19s
+     1     4  595.35002    1 1081  579.00000  612.61888  5.81%  3270   20s
+    11     4     cutoff    4       579.00000  601.94535  3.96%  2351   25s
+*   19     6               7     582.0000000  589.26225  1.25%  2219   26s
+
+Cutting planes:
+  Dual implied bound: 6
+  MIR: 6
+  Zero half: 25
+  RLT: 667
+  BQP: 1105
+
+Explored 26 nodes (76085 simplex iterations) in 26.94 seconds (21.80 work units)
+Thread count was 8 (of 8 available processors)
+
+Solution count 10: 582 579 574 ... 523
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 5.820000000000e+02, best bound 5.820000000000e+02, gap 0.0000%
+
+========================================
+Resultados da Otimização (MAX-SC-QBF Linearizado):
+========================================
+Status: Ótimo (Optimal)
+Valor da Solução Ótima (Z): 582.0000
+Valores das Variáveis x (Subconjuntos Selecionados):
+ x[1] = 1
+ x[2] = 1
+ x[3] = 1
+ x[4] = 0
+ x[5] = 1
+ x[6] = 0
+ x[7] = 0
+ x[8] = 1
+ x[9] = 0
+ x[10] = 0
+ x[11] = 0
+ x[12] = 1
+ x[13] = 0
+ x[14] = 0
+ x[15] = 0
+ x[16] = 1
+ x[17] = 1
+ x[18] = 1
+ x[19] = 1
+ x[20] = 1
+ x[21] = 0
+ x[22] = 1
+ x[23] = 0
+ x[24] = 1
+ x[25] = 1
+ x[26] = 1
+ x[27] = 0
+ x[28] = 0
+ x[29] = 1
+ x[30] = 1
+ x[31] = 0
+ x[32] = 0
+ x[33] = 1
+ x[34] = 1
+ x[35] = 0
+ x[36] = 1
+ x[37] = 1
+ x[38] = 1
+ x[39] = 1
+ x[40] = 1
+ x[41] = 1
+ x[42] = 1
+ x[43] = 1
+ x[44] = 1
+ x[45] = 1
+ x[46] = 1
+ x[47] = 0
+ x[48] = 1
+ x[49] = 0
+ x[50] = 1
+Subconjuntos selecionados: [1, 2, 3, 5, 8, 12, 16, 17, 18, 19, 20, 22, 24, 25, 26, 29, 30, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 50]
