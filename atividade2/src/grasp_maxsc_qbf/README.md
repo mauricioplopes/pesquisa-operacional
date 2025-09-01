@@ -1,379 +1,158 @@
-# Pseudo-código dos Métodos GRASP MAX-SC-QBF
-## 1. Elaboração do RCL (Restricted Candidate List)
-### Método Standard RCL Construction
-```text
-ALGORITMO: Construir_RCL_Standard(CL, sol, alpha)
-ENTRADA: CL (lista de candidatos), sol (solução atual), alpha (parâmetro)
-SAÍDA: RCL (lista restrita de candidatos)
+# GRASP MAX-SC-QBF
 
-INÍCIO
-    max_cost ← -∞
-    min_cost ← +∞
-    RCL ← ∅
-    
-    // Avaliar todos os candidatos para encontrar min e max
-    PARA CADA c ∈ CL FAÇA
-        delta_cost ← avaliar_custo_inserção(c, sol)
-        SE delta_cost < min_cost ENTÃO
-            min_cost ← delta_cost
-        FIM SE
-        SE delta_cost > max_cost ENTÃO
-            max_cost ← delta_cost
-        FIM SE
-    FIM PARA
-    
-    // Construir RCL com candidatos dentro do threshold
-    threshold ← max_cost - alpha × (max_cost - min_cost)
-    
-    PARA CADA c ∈ CL FAÇA
-        delta_cost ← avaliar_custo_inserção(c, sol)
-        SE delta_cost ≥ threshold ENTÃO  // Para maximização
-            RCL ← RCL ∪ {c}
-        FIM SE
-    FIM PARA
-    
-    RETORNAR RCL
-FIM
+Uma implementação modular do algoritmo GRASP (Greedy Randomized Adaptive Search Procedure) para resolver o problema MAX-SC-QBF (Maximization of Quadratic Binary Function with Set Cover constraints).
+
+## 📋 Descrição do Problema
+
+O problema MAX-SC-QBF consiste em:
+- **Maximizar** uma função binária quadrática: `f(x) = x'.A.x`
+- **Sujeito a** restrições de cobertura de conjuntos (todos os elementos devem ser cobertos)
+
+Onde:
+- `x` é um vetor binário de variáveis
+- `A` é uma matriz de coeficientes
+- Cada variável binária corresponde a um subconjunto que cobre determinados elementos
+
+## 🏗️ Estrutura do Projeto
+
+```
+grasp_maxsc_qbf/
+├── main.py                    # Script principal de execução
+├── core/                      # Componentes base do framework
+│   ├── __init__.py
+│   ├── solution.py           # Classe Solution genérica
+│   ├── evaluator.py          # Interface abstrata Evaluator
+│   └── abstract_grasp.py     # Implementação base do GRASP
+├── problems/                  # Implementações específicas de problemas
+│   ├── __init__.py
+│   └── qbf_sc.py            # Avaliador para MAX-SC-QBF
+├── algorithms/               # Algoritmos específicos
+│   ├── __init__.py
+│   └── grasp_qbf_sc.py      # GRASP especializado para QBF-SC
+└── utils/                    # Utilitários
+    ├── __init__.py
+    └── instance_generator.py # Gerador de instâncias de teste
 ```
 
-## 2. Métodos de Construção
-### 2.1 Standard Construction
-```text
-ALGORITMO: Construção_Standard(alpha, iterações)
-ENTRADA: alpha (parâmetro guloso), iterações (número máximo)
-SAÍDA: sol (solução construída)
+## 📦 Módulos
 
-INÍCIO
-    CL ← fazer_lista_candidatos()
-    sol ← criar_solução_vazia()
-    
-    ENQUANTO NÃO critério_parada(sol) FAÇA
-        atualizar_CL(sol)
-        
-        SE CL = ∅ ENTÃO
-            INTERROMPER
-        FIM SE
-        
-        RCL ← construir_RCL_standard(CL, sol, alpha)
-        
-        SE RCL ≠ ∅ ENTÃO
-            índice_aleatório ← aleatório(0, |RCL|-1)
-            candidato_escolhido ← RCL[índice_aleatório]
-            
-            CL ← CL \ {candidato_escolhido}
-            sol ← sol ∪ {candidato_escolhido}
-            
-            avaliar(sol)
-        FIM SE
-    FIM ENQUANTO
-    
-    RETORNAR sol
-FIM
+### 🔧 Core (`core/`)
+
+#### `solution.py`
+Classe genérica para representar soluções de problemas de otimização:
+- Armazena elementos da solução e seu custo
+- Operações básicas: adicionar, remover, verificar pertencimento
+- Suporte para construtor de cópia e iteração
+
+#### `evaluator.py`
+Interface abstrata para avaliadores de problemas:
+- `evaluate()`: Avalia uma solução completa
+- `evaluate_insertion_cost()`: Custo de inserir um elemento
+- `evaluate_removal_cost()`: Custo de remover um elemento
+- `evaluate_exchange_cost()`: Custo de trocar elementos
+- `is_feasible()`: Verifica factibilidade
+
+#### `abstract_grasp.py`
+Implementação base do algoritmo GRASP:
+- **Métodos de construção**: Standard, Random+Greedy, Sampled Greedy
+- **Busca local**: First Improving, Best Improving
+
+### 🎯 Problems (`problems/`)
+
+#### `qbf_sc.py`
+Implementação específica do avaliador MAX-SC-QBF:
+- Lê instâncias no formato especificado
+- Avalia função quadrática binária eficientemente
+- Verifica restrições de cobertura de conjuntos
+- Cálculos incrementais para melhor performance
+
+### 🚀 Algorithms (`algorithms/`)
+
+#### `grasp_qbf_sc.py`
+GRASP especializado para o problema MAX-SC-QBF:
+- Implementa operações específicas do problema
+- Busca local com inserção, remoção e troca
+- Estratégias para manter factibilidade
+
+### 🛠️ Utils (`utils/`)
+
+#### `instance_generator.py`
+Gerador de instâncias para teste e desenvolvimento
+
+## 📊 Formato da Instância
+
+```
+<n>                           # número de variáveis binárias
+<s1> <s2> ... <sn>           # tamanhos dos subconjuntos
+<elementos de S1>            # elementos cobertos por S1
+<elementos de S2>            # elementos cobertos por S2
+...
+<elementos de Sn>            # elementos cobertos por Sn
+<a11> <a12> ... <a1n>       # matriz QBF (triangular superior)
+<a22> ... <a2n>
+...
+<ann>
 ```
 
-### 2.2 Random Plus Greedy Construction
-```text
-ALGORITMO: Construção_Random_Plus_Greedy()
-ENTRADA: Nenhuma específica
-SAÍDA: sol (solução construída)
-
-INÍCIO
-    CL ← fazer_lista_candidatos()
-    sol ← criar_solução_vazia()
-    
-    // FASE 1: Seleção Aleatória (30% dos elementos)
-    num_aleatórios ← max(1, ⌊0.3 × |CL|⌋)
-    
-    PARA i ← 1 ATÉ min(num_aleatórios, |CL|) FAÇA
-        SE CL = ∅ ENTÃO
-            INTERROMPER
-        FIM SE
-        
-        índice_aleatório ← aleatório(0, |CL|-1)
-        selecionado ← CL[índice_aleatório]
-        CL ← CL \ {selecionado}
-        sol ← sol ∪ {selecionado}
-    FIM PARA
-    
-    // FASE 2: Conclusão Gulosa
-    ENQUANTO NÃO critério_parada(sol) E CL ≠ ∅ FAÇA
-        atualizar_CL(sol)
-        
-        SE CL = ∅ ENTÃO
-            INTERROMPER
-        FIM SE
-        
-        melhor_candidato ← NULO
-        melhor_custo ← -∞
-        
-        PARA CADA c ∈ CL FAÇA
-            delta_custo ← avaliar_custo_inserção(c, sol)
-            SE delta_custo > melhor_custo ENTÃO
-                melhor_custo ← delta_custo
-                melhor_candidato ← c
-            FIM SE
-        FIM PARA
-        
-        SE melhor_candidato ≠ NULO ENTÃO
-            CL ← CL \ {melhor_candidato}
-            sol ← sol ∪ {melhor_candidato}
-            avaliar(sol)
-        FIM SE
-    FIM ENQUANTO
-    
-    RETORNAR sol
-FIM
+**Exemplo:**
+```
+4
+2 3 2 1
+1 2
+2 3 4
+1 4
+3
+10 -2 3 1
+5 0 -1
+8 4
+-2
 ```
 
-### 2.3 Sampled Greedy Construction
-```text
-ALGORITMO: Construção_Sampled_Greedy()
-ENTRADA: Nenhuma específica
-SAÍDA: sol (solução construída)
+## 🚀 Como Usar
 
-INÍCIO
-    CL ← fazer_lista_candidatos()
-    sol ← criar_solução_vazia()
-    tamanho_amostra ← max(2, ⌊0.5 × |CL|⌋)  // 50% dos candidatos
-    
-    ENQUANTO NÃO critério_parada(sol) E CL ≠ ∅ FAÇA
-        atualizar_CL(sol)
-        
-        SE CL = ∅ ENTÃO
-            INTERROMPER
-        FIM SE
-        
-        // Amostrar candidatos
-        tamanho_atual ← min(tamanho_amostra, |CL|)
-        candidatos_amostrados ← amostra_aleatória(CL, tamanho_atual)
-        
-        // Encontrar melhor entre os amostrados
-        melhor_candidato ← NULO
-        melhor_custo ← -∞
-        
-        PARA CADA c ∈ candidatos_amostrados FAÇA
-            delta_custo ← avaliar_custo_inserção(c, sol)
-            SE delta_custo > melhor_custo ENTÃO
-                melhor_custo ← delta_custo
-                melhor_candidato ← c
-            FIM SE
-        FIM PARA
-        
-        SE melhor_candidato ≠ NULO ENTÃO
-            CL ← CL \ {melhor_candidato}
-            sol ← sol ∪ {melhor_candidato}
-            avaliar(sol)
-        FIM SE
-    FIM ENQUANTO
-    
-    RETORNAR sol
-FIM
+### Instalação
+```bash
+git clone https://github.com/seu-usuario/grasp-maxsc-qbf.git
+cd grasp-maxsc-qbf
 ```
 
-## 3. Métodos de Busca Local
-### 3.1 First Improving Local Search
-```text
-ALGORITMO: Busca_Local_First_Improving(sol)
-ENTRADA: sol (solução inicial)
-SAÍDA: sol (solução melhorada)
+### Execução Básica
+```bash
+# Executar com instância específica
+python main.py instancia.txt
 
-INÍCIO
-    melhorou ← VERDADEIRO
-    
-    ENQUANTO melhorou FAÇA
-        melhorou ← FALSO
-        melhor_movimento ← NULO
-        
-        CL_atual ← {i : i ∉ sol}  // Candidatos não na solução
-        
-        // AVALIAR INSERÇÕES
-        PARA CADA cand_in ∈ CL_atual FAÇA
-            delta_custo ← avaliar_custo_inserção(cand_in, sol)
-            
-            SE delta_custo > 0 ENTÃO  // Movimento melhora
-                melhor_movimento ← ("inserir", cand_in, NULO)
-                INTERROMPER  // First improving
-            FIM SE
-        FIM PARA
-        
-        SE melhor_movimento = NULO ENTÃO
-            // AVALIAR REMOÇÕES
-            PARA CADA cand_out ∈ sol FAÇA
-                delta_custo ← avaliar_custo_remoção(cand_out, sol)
-                
-                SE delta_custo > 0 ENTÃO  // Movimento melhora
-                    melhor_movimento ← ("remover", NULO, cand_out)
-                    INTERROMPER  // First improving
-                FIM SE
-            FIM PARA
-        FIM SE
-        
-        SE melhor_movimento = NULO ENTÃO
-            // AVALIAR TROCAS
-            PARA CADA cand_in ∈ CL_atual FAÇA
-                PARA CADA cand_out ∈ sol FAÇA
-                    delta_custo ← avaliar_custo_troca(cand_in, cand_out, sol)
-                    
-                    SE delta_custo > 0 ENTÃO  // Movimento melhora
-                        melhor_movimento ← ("trocar", cand_in, cand_out)
-                        INTERROMPER  // First improving
-                    FIM SE
-                FIM PARA
-                
-                SE melhor_movimento ≠ NULO ENTÃO
-                    INTERROMPER
-                FIM SE
-            FIM PARA
-        FIM SE
-        
-        // APLICAR MELHOR MOVIMENTO
-        SE melhor_movimento ≠ NULO ENTÃO
-            (tipo, cand_in, cand_out) ← melhor_movimento
-            
-            CASO tipo DE
-                "inserir": sol ← sol ∪ {cand_in}
-                "remover": sol ← sol \ {cand_out}
-                "trocar": 
-                    sol ← sol \ {cand_out}
-                    sol ← sol ∪ {cand_in}
-            FIM CASO
-            
-            avaliar(sol)
-            melhorou ← VERDADEIRO
-        FIM SE
-    FIM ENQUANTO
-    
-    RETORNAR sol
-FIM
+# Com parâmetros personalizados
+python main.py instancia.txt 0.3 100 standard first_improving
 ```
 
-### 3.2 Best Improving Local Search
-```text
-ALGORITMO: Busca_Local_Best_Improving(sol)
-ENTRADA: sol (solução inicial)
-SAÍDA: sol (solução melhorada)
+## ⚙️ Configurações Disponíveis
 
-INÍCIO
-    melhorou ← VERDADEIRO
-    
-    ENQUANTO melhorou FAÇA
-        melhorou ← FALSO
-        melhor_movimento ← NULO
-        melhor_delta ← 0.0
-        
-        CL_atual ← {i : i ∉ sol}  // Candidatos não na solução
-        
-        // AVALIAR INSERÇÕES
-        PARA CADA cand_in ∈ CL_atual FAÇA
-            delta_custo ← avaliar_custo_inserção(cand_in, sol)
-            
-            SE delta_custo > melhor_delta ENTÃO
-                melhor_delta ← delta_custo
-                melhor_movimento ← ("inserir", cand_in, NULO)
-            FIM SE
-        FIM PARA
-        
-        // AVALIAR REMOÇÕES
-        PARA CADA cand_out ∈ sol FAÇA
-            delta_custo ← avaliar_custo_remoção(cand_out, sol)
-            
-            SE delta_custo > melhor_delta ENTÃO
-                melhor_delta ← delta_custo
-                melhor_movimento ← ("remover", NULO, cand_out)
-            FIM SE
-        FIM PARA
-        
-        // AVALIAR TROCAS
-        PARA CADA cand_in ∈ CL_atual FAÇA
-            PARA CADA cand_out ∈ sol FAÇA
-                delta_custo ← avaliar_custo_troca(cand_in, cand_out, sol)
-                
-                SE delta_custo > melhor_delta ENTÃO
-                    melhor_delta ← delta_custo
-                    melhor_movimento ← ("trocar", cand_in, cand_out)
-                FIM SE
-            FIM PARA
-        FIM PARA
-        
-        // APLICAR MELHOR MOVIMENTO
-        SE melhor_movimento ≠ NULO E melhor_delta > 1e-10 ENTÃO
-            (tipo, cand_in, cand_out) ← melhor_movimento
-            
-            CASO tipo DE
-                "inserir": sol ← sol ∪ {cand_in}
-                "remover": sol ← sol \ {cand_out}
-                "trocar": 
-                    sol ← sol \ {cand_out}
-                    sol ← sol ∪ {cand_in}
-            FIM CASO
-            
-            avaliar(sol)
-            melhorou ← VERDADEIRO
-        FIM SE
-    FIM ENQUANTO
-    
-    RETORNAR sol
-FIM
-```
+### Métodos de Construção
+- **`standard`**: GRASP clássico com RCL baseado em α
+- **`random_plus_greedy`**: 30% seleção aleatória + conclusão gulosa
+- **`sampled_greedy`**: Amostra 50% dos candidatos e escolhe o melhor
 
-## 4. Atualização da Lista de Candidatos (CL)
-```text
-ALGORITMO: Atualizar_CL(sol)
-ENTRADA: sol (solução atual)
-SAÍDA: CL atualizada (efeito colateral)
+### Métodos de Busca Local
+- **`first_improving`**: Para no primeiro movimento que melhora
+- **`best_improving`**: Avalia todos os movimentos e escolhe o melhor
 
-INÍCIO
-    SE é_factível(sol) ENTÃO
-        // Se já factível, qualquer subconjunto não na solução pode ser candidato
-        CL ← {i : i ∉ sol, i ∈ {0,1,...,n-1}}
-    SENÃO
-        // Apenas subconjuntos que cobrem variáveis descobertas
-        variáveis_descobertas ← obter_variáveis_descobertas(sol)
-        CL ← ∅
-        
-        PARA i ← 0 ATÉ n-1 FAÇA
-            SE i ∉ sol ENTÃO
-                cobertura_subconjunto ← subconjuntos[i]
-                SE variáveis_descobertas ∩ cobertura_subconjunto ≠ ∅ ENTÃO
-                    CL ← CL ∪ {i}
-                FIM SE
-            FIM SE
-        FIM PARA
-    FIM SE
-FIM
-```
+### Parâmetros
+- **`alpha`** (0.0-1.0): Controla ganância vs aleatoriedade (0=guloso, 1=aleatório)
+- **`iterations`**: Número de iterações do GRASP
 
-## 5. Algoritmo Principal GRASP
-```text
-ALGORITMO: GRASP_Principal(alpha, iterações, arquivo)
-ENTRADA: alpha, iterações, arquivo
-SAÍDA: melhor_solução
+## 🔬 Características Técnicas
 
-INÍCIO
-    melhor_solução ← criar_solução_vazia()
-    
-    PARA i ← 1 ATÉ iterações FAÇA
-        // FASE CONSTRUTIVA
-        sol ← heurística_construtiva(alpha)
-        
-        // Garantir factibilidade
-        SE NÃO é_factível(sol) ENTÃO
-            tornar_factível(sol)
-        FIM SE
-        
-        // FASE DE BUSCA LOCAL
-        sol ← busca_local(sol)
-        
-        // ATUALIZAR MELHOR SOLUÇÃO
-        SE sol.custo > melhor_solução.custo ENTÃO
-            melhor_solução ← cópia(sol)
-            
-            SE verbose ENTÃO
-                IMPRIMIR "(Iter. " + i + ") MelhorSol = " + melhor_solução
-            FIM SE
-        FIM SE
-    FIM PARA
-    
-    RETORNAR melhor_solução
-FIM
-```
+### Algoritmo GRASP
+- **Fase Construtiva**: Constrói soluções usando RCL com randomização controlada
+- **Fase de Busca Local**: Melhora soluções através de movimentos de vizinhança
+- **Multi-start**: Executa múltiplas iterações independentes
+
+### Otimizações Implementadas
+- **Avaliação incremental**: Cálculos eficientes de custo delta
+- **Verificação de factibilidade**: Controle rigoroso das restrições de cobertura
+- **Estruturas de dados otimizadas**: Uso eficiente de conjuntos e listas
+
+### Movimentos de Busca Local
+- **Inserção**: Adiciona elemento à solução
+- **Remoção**: Remove elemento (mantendo factibilidade)
+- **Troca**: Substitui um elemento por outro
