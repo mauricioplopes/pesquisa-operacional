@@ -4,6 +4,7 @@ Implementação do algoritmo GRASP (Greedy Randomized Adaptive Search Procedure)
 
 ## Estrutura do Projeto
 
+```text
 grasp_maxsc_qbf/
 ├── init.py              # Pacote principal
 ├── core/                    # Componentes base
@@ -21,7 +22,7 @@ grasp_maxsc_qbf/
 │   ├── init.py
 │   └── instance_generator.py # Gera instâncias para experimentos
 └── main.py                  # Script principal
-
+```
 
 ## Uso
 ### Execução básica
