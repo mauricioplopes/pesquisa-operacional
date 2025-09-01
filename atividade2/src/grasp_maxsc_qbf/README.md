@@ -64,7 +64,6 @@ Implementação específica do avaliador MAX-SC-QBF:
 - Lê instâncias no formato especificado
 - Avalia função quadrática binária eficientemente
 - Verifica restrições de cobertura de conjuntos
-- Cálculos incrementais para melhor performance
 
 ### 🚀 Algorithms (`algorithms/`)
 
@@ -110,12 +109,6 @@ Gerador de instâncias para teste e desenvolvimento
 
 ## 🚀 Como Usar
 
-### Instalação
-```bash
-git clone https://github.com/seu-usuario/grasp-maxsc-qbf.git
-cd grasp-maxsc-qbf
-```
-
 ### Execução Básica
 ```bash
 # Executar com instância específica
@@ -146,11 +139,6 @@ python main.py instancia.txt 0.3 100 standard first_improving
 - **Fase Construtiva**: Constrói soluções usando RCL com randomização controlada
 - **Fase de Busca Local**: Melhora soluções através de movimentos de vizinhança
 - **Multi-start**: Executa múltiplas iterações independentes
-
-### Otimizações Implementadas
-- **Avaliação incremental**: Cálculos eficientes de custo delta
-- **Verificação de factibilidade**: Controle rigoroso das restrições de cobertura
-- **Estruturas de dados otimizadas**: Uso eficiente de conjuntos e listas
 
 ### Movimentos de Busca Local
 - **Inserção**: Adiciona elemento à solução
