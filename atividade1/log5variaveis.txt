@@ -1,0 +1,48 @@
+Set parameter Username
+Set parameter LicenseID to value 2696824
+Academic license - for non-commercial use only - expires 2026-08-20
+Set parameter TimeLimit to value 600
+Set parameter LogFile to value "log5variaveis.txt"
+Iniciando otimização do MAX-SC-QBF (Modelo Linearizado)...
+Gurobi Optimizer version 12.0.3 build v12.0.3rc0 (win64 - Windows 10.0 (19045.2))
+
+CPU model: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz, instruction set [SSE2|AVX|AVX2]
+Thread count: 4 physical cores, 8 logical processors, using up to 8 threads
+
+Non-default parameters:
+TimeLimit  600
+
+Optimize a model with 46 rows, 30 columns and 103 nonzeros
+Model fingerprint: 0x2b580458
+Variable types: 0 continuous, 30 integer (30 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+00]
+  Objective range  [2e+00, 1e+01]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Found heuristic solution: objective -35.0000000
+Found heuristic solution: objective -8.0000000
+Presolve removed 46 rows and 30 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds (0.00 work units)
+Thread count was 1 (of 8 available processors)
+
+Solution count 3: 9 -8 -35 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
+
+========================================
+Resultados da Otimização (MAX-SC-QBF Linearizado):
+========================================
+Status: Ótimo (Optimal)
+Valor da Solução Ótima (Z): 9.0000
+Valores das Variáveis x (Subconjuntos Selecionados):
+ x[1] = 0
+ x[2] = 1
+ x[3] = 0
+ x[4] = 1
+ x[5] = 0
+Subconjuntos selecionados: [2, 4]

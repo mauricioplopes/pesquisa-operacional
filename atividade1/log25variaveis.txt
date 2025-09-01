@@ -1,0 +1,92 @@
+Set parameter TimeLimit to value 600
+Set parameter LogFile to value "log25variaveis.txt"
+Iniciando otimização do MAX-SC-QBF (Modelo Linearizado)...
+Gurobi Optimizer version 12.0.3 build v12.0.3rc0 (win64 - Windows 10.0 (19045.2))
+
+CPU model: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz, instruction set [SSE2|AVX|AVX2]
+Thread count: 4 physical cores, 8 logical processors, using up to 8 threads
+
+Non-default parameters:
+TimeLimit  600
+
+Optimize a model with 976 rows, 650 columns and 2266 nonzeros
+Model fingerprint: 0xc5af961f
+Variable types: 0 continuous, 650 integer (650 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 2e+00]
+  Objective range  [1e+00, 1e+01]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Found heuristic solution: objective -62.0000000
+Found heuristic solution: objective -4.0000000
+Presolve removed 552 rows and 340 columns
+Presolve time: 0.02s
+Presolved: 424 rows, 310 columns, 1009 nonzeros
+Variable types: 0 continuous, 310 integer (310 binary)
+Found heuristic solution: objective 37.0000000
+
+Root relaxation: objective 3.815000e+02, 222 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  381.50000    0  163   37.00000  381.50000   931%     -    0s
+H    0     0                     104.0000000  381.50000   267%     -    0s
+H    0     0                     155.0000000  381.50000   146%     -    0s
+H    0     0                     169.0000000  381.50000   126%     -    0s
+H    0     0                     172.0000000  381.50000   122%     -    0s
+H    0     0                     180.0000000  270.50000  50.3%     -    0s
+     0     0  225.42857    0  238  180.00000  225.42857  25.2%     -    0s
+H    0     0                     217.0000000  225.42857  3.88%     -    0s
+     0     0  225.42857    0  237  217.00000  225.42857  3.88%     -    0s
+H    0     0                     220.0000000  220.00000  0.00%     -    0s
+     0     0          -    0       220.00000  220.00000  0.00%     -    0s
+
+Cutting planes:
+  Gomory: 12
+  Dual implied bound: 1
+  MIR: 1
+  Zero half: 53
+  RLT: 163
+  BQP: 120
+
+Explored 1 nodes (758 simplex iterations) in 0.21 seconds (0.08 work units)
+Thread count was 8 (of 8 available processors)
+
+Solution count 10: 220 217 180 ... -62
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.200000000000e+02, best bound 2.200000000000e+02, gap 0.0000%
+
+========================================
+Resultados da Otimização (MAX-SC-QBF Linearizado):
+========================================
+Status: Ótimo (Optimal)
+Valor da Solução Ótima (Z): 220.0000
+Valores das Variáveis x (Subconjuntos Selecionados):
+ x[1] = 1
+ x[2] = 0
+ x[3] = 1
+ x[4] = 1
+ x[5] = 0
+ x[6] = 1
+ x[7] = 1
+ x[8] = 0
+ x[9] = 0
+ x[10] = 1
+ x[11] = 1
+ x[12] = 1
+ x[13] = 1
+ x[14] = 0
+ x[15] = 1
+ x[16] = 1
+ x[17] = 1
+ x[18] = 1
+ x[19] = 0
+ x[20] = 1
+ x[21] = 1
+ x[22] = 0
+ x[23] = 0
+ x[24] = 0
+ x[25] = 1
+Subconjuntos selecionados: [1, 3, 4, 6, 7, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 25]
