@@ -13,6 +13,17 @@ Onde:
 - `A` é uma matriz de coeficientes
 - Cada variável binária corresponde a um subconjunto que cobre determinados elementos
 
+### Algoritmo GRASP
+- **Fase Construtiva**: Constrói soluções usando RCL com randomização controlada
+- **Fase de Busca Local**: Melhora soluções através de movimentos de vizinhança
+- **Multi-start**: Executa múltiplas iterações independentes
+
+### Movimentos de Busca Local
+- **Inserção**: Adiciona elemento à solução
+- **Remoção**: Remove elemento (mantendo factibilidade)
+- **Troca**: Substitui um elemento por outro
+
+
 ## 🏗️ Estrutura do Projeto
 
 ```
@@ -132,15 +143,3 @@ python main.py instancia.txt 0.3 100 standard first_improving
 ### Parâmetros
 - **`alpha`** (0.0-1.0): Controla ganância vs aleatoriedade (0=guloso, 1=aleatório)
 - **`iterations`**: Número de iterações do GRASP
-
-## 🔬 Características Técnicas
-
-### Algoritmo GRASP
-- **Fase Construtiva**: Constrói soluções usando RCL com randomização controlada
-- **Fase de Busca Local**: Melhora soluções através de movimentos de vizinhança
-- **Multi-start**: Executa múltiplas iterações independentes
-
-### Movimentos de Busca Local
-- **Inserção**: Adiciona elemento à solução
-- **Remoção**: Remove elemento (mantendo factibilidade)
-- **Troca**: Substitui um elemento por outro
