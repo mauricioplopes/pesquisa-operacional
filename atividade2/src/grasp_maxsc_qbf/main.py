@@ -72,7 +72,7 @@ def run_experiments():
     
     for result in results:
         print(f"{result['config']:<15} {result['cost']:<10.2f} {result['size']:<6} "
-              f"{result['time']:<8.2f} {result['feasible']:<10}")
+              f"{result['time']:<8.3f} {result['feasible']:<10}")
     
     return results
 

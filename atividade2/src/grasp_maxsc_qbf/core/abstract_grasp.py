@@ -91,9 +91,11 @@ class AbstractGRASP(ABC, Generic[E]):
             if not self.CL:  # No more candidates
                 break
             
+            insertion_costs = []
             # Explore all candidates to find min and max costs
             for c in self.CL:
                 delta_cost = self.obj_function.evaluate_insertion_cost(c, self.sol)
+                insertion_costs.append(delta_cost)
                 if delta_cost < min_cost:
                     min_cost = delta_cost
                 if delta_cost > max_cost:
@@ -102,10 +104,9 @@ class AbstractGRASP(ABC, Generic[E]):
             # Build RCL with candidates within alpha threshold
             self.RCL.clear()
             threshold = max_cost - self.alpha * (max_cost - min_cost)
-            for c in self.CL:
-                delta_cost = self.obj_function.evaluate_insertion_cost(c, self.sol)
-                if delta_cost >= threshold:  # For maximization
-                    self.RCL.append(c)
+            for i, c in enumerate(insertion_costs):
+                if c >= threshold:  # For maximization
+                    self.RCL.append(self.CL[i])
             
             # Choose random candidate from RCL
             if self.RCL:
@@ -123,8 +124,8 @@ class AbstractGRASP(ABC, Generic[E]):
         self.CL = self.make_CL()
         self.sol = self.create_empty_sol()
         
-        # Phase 1: Random selection (30% of elements)
-        num_random = max(1, int(0.3 * len(self.CL)))
+        # Phase 1: Random selection (20% of elements)
+        num_random = max(1, int(0.05 * len(self.CL)))
         for _ in range(min(num_random, len(self.CL))):
             if not self.CL:
                 break
@@ -147,7 +148,7 @@ class AbstractGRASP(ABC, Generic[E]):
                     best_cost = delta_cost
                     best_candidate = c
             
-            if best_candidate:
+            if best_candidate != None:
                 self.CL.remove(best_candidate)
                 self.sol.add(best_candidate)
                 self.obj_function.evaluate(self.sol)

@@ -116,11 +116,11 @@ class GRASP_QBF_SC(AbstractGRASP[int]):
                             best_move = ("exchange", cand_in, cand_out)
                             if self.local_search_method == "first_improving" and delta_cost > 0:
                                 break
-                    if self.local_search_method == "first_improving" and best_move and best_move[0] == "exchange":
+                    if self.local_search_method == "first_improving" and best_move:
                         break
             
             # Apply best move
-            if best_move and best_delta > 1e-10:
+            if best_move:
                 move_type, cand_in, cand_out = best_move
                 
                 if move_type == "insert" and cand_in is not None:

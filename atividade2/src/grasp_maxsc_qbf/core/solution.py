@@ -19,16 +19,17 @@ class Solution(Generic[E]):
             self.cost = elements_or_solution.cost
         elif elements_or_solution is not None:
             # Constructor with elements and cost
-            self.elements = elements_or_solution if elements_or_solution is not None else []
-            self.cost = cost if cost is not None else float('inf')
+            self.elements = elements_or_solution
+            self.cost = cost if cost is not None else float('-inf')
         else:
             # Default constructor
             self.elements = []
-            self.cost = float('inf')
+            self.cost = float('-inf')
     
     def add(self, element: E):
         """Add element to solution"""
-        self.elements.append(element)
+        if element not in self.elements:
+            self.elements.append(element)
     
     def remove(self, element: E):
         """Remove element from solution"""

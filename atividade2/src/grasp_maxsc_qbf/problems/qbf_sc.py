@@ -77,9 +77,6 @@ class QBF_SC(Evaluator[int]):
                 col_idx = i + j
                 if col_idx < n:
                     A[i][col_idx] = val
-                    # Make matrix symmetric for easier computation
-                    if col_idx != i:
-                        A[col_idx][i] = val
             
             line_idx += 1
         
