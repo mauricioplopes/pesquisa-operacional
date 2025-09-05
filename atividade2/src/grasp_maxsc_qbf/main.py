@@ -34,14 +34,16 @@ def run_experiments():
     alpha1 = alphas[0]
     
     configs = [
-        # ("PADRÃO", alpha1, "first_improving", "standard"),
-        # ("PADRÃO+ALPHA", alphas[1], "first_improving", "standard"),
-        # ("PADRÃO+BEST", alpha1, "best_improving", "standard"),
-        # ("PADRÃO+HC1", alpha1, "first_improving", "random_plus_greedy"),
+        ("PADRÃO", alpha1, "first_improving", "standard"),
+        ("PADRÃO+ALPHA", alphas[1], "first_improving", "standard"),
+        ("PADRÃO+BEST", alpha1, "best_improving", "standard"),
+        ("PADRÃO+HC1", alpha1, "first_improving", "random_plus_greedy"),
         ("PADRÃO+HC2", alpha1, "first_improving", "sampled_greedy"),
+        ("PADRÃO+HC2", alpha1, "first_improving", "pop_in_construction"),
     ]
     
     for filename in filenames:
+        print("\n" + "-" * 60)
         print(f"File: {filename}")
         print("-" * 60)
         for config_name, alpha, local_search, construction in configs:

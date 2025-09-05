@@ -70,11 +70,15 @@ class AbstractGRASP(ABC, Generic[E]):
             return self.random_plus_greedy_construction()
         elif self.construction_method == "sampled_greedy":
             return self.sampled_greedy_construction()
+        elif self.construction_method == "pop_in_construction":
+            return self.standard_constructive_heuristic(pop_in_construction=True)
         else:  # standard
             return self.standard_constructive_heuristic()
     
-    def standard_constructive_heuristic(self) -> Solution[E]:
+    def standard_constructive_heuristic(self, pop_in_construction=False) -> Solution[E]:
         """Standard GRASP constructive heuristic"""
+        # percentages for local search, if pop_in_construction is True
+        percentages_for_local_search = [0.4, 0.6, 0.8]
         
         self.CL = self.make_CL()
         self.RCL = self.make_RCL()
@@ -90,6 +94,15 @@ class AbstractGRASP(ABC, Generic[E]):
             
             if not self.CL:  # No more candidates
                 break
+
+            # if pop in construction is selected, when reach certain percentages, make local search 
+            if pop_in_construction:
+                percentage = len(self.sol) / self.obj_function.get_domain_size()
+
+                if percentage >= percentages_for_local_search[0]:
+                    percentages_for_local_search.pop(0)
+                    self.sol = self.local_search()
+                    continue
             
             insertion_costs = []
             # Explore all candidates to find min and max costs
@@ -115,6 +128,7 @@ class AbstractGRASP(ABC, Generic[E]):
                 self.CL.remove(in_cand)
                 self.sol.add(in_cand)
                 self.obj_function.evaluate(self.sol)
+
         
         return self.sol
     
