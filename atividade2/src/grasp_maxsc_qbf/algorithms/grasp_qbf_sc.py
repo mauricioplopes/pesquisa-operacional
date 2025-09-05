@@ -90,46 +90,47 @@ class GRASP_QBF_SC(AbstractGRASP[int]):
             # Evaluate insertions
             for cand_in in current_CL:
                 delta_cost = self.obj_function.evaluate_insertion_cost(cand_in, self.sol)
-                if delta_cost > best_delta or (self.local_search_method == "first_improving" and delta_cost > 0):
+                if delta_cost > best_delta:
                     best_delta = delta_cost
-                    best_move = ("insert", cand_in, None)
-                    if self.local_search_method == "first_improving" and delta_cost > 0:
+                    best_move = (cand_in, None)
+                    if self.local_search_method == "first_improving":
                         break
             
-            if not (self.local_search_method == "first_improving" and best_move):
+            if not (self.local_search_method == "first_improving" and best_move is not None):
                 # Evaluate removals
                 for cand_out in list(self.sol):
                     delta_cost = self.obj_function.evaluate_removal_cost(cand_out, self.sol)
-                    if delta_cost > best_delta or (self.local_search_method == "first_improving" and delta_cost > 0):
+                    if delta_cost > best_delta:
                         best_delta = delta_cost
-                        best_move = ("remove", None, cand_out)
-                        if self.local_search_method == "first_improving" and delta_cost > 0:
+                        best_move = (None, cand_out)
+                        if self.local_search_method == "first_improving":
                             break
             
-            if not (self.local_search_method == "first_improving" and best_move):
+            if not (self.local_search_method == "first_improving" and best_move is not None):
                 # Evaluate exchanges
                 for cand_in in current_CL:
                     for cand_out in list(self.sol):
                         delta_cost = self.obj_function.evaluate_exchange_cost(cand_in, cand_out, self.sol)
-                        if delta_cost > best_delta or (self.local_search_method == "first_improving" and delta_cost > 0):
+                        if delta_cost > best_delta:
                             best_delta = delta_cost
-                            best_move = ("exchange", cand_in, cand_out)
-                            if self.local_search_method == "first_improving" and delta_cost > 0:
+                            best_move = (cand_in, cand_out)
+                            if self.local_search_method == "first_improving":
                                 break
-                    if self.local_search_method == "first_improving" and best_move:
+                    if self.local_search_method == "first_improving" and best_move is not None:
                         break
             
             # Apply best move
-            if best_move:
-                move_type, cand_in, cand_out = best_move
-                
-                if move_type == "insert" and cand_in is not None:
-                    self.sol.add(cand_in)
-                elif move_type == "remove" and cand_out is not None:
-                    self.sol.remove(cand_out)
-                elif move_type == "exchange" and cand_in is not None and cand_out is not None:
+            if best_move is not None:
+                cand_in, cand_out = best_move
+
+                if cand_in is not None and cand_out is not None:
                     self.sol.remove(cand_out)
                     self.sol.add(cand_in)
+                elif cand_in is not None:
+                    self.sol.add(cand_in)
+                elif cand_out is not None:
+                    self.sol.remove(cand_out)
+                    
                 
                 self.obj_function.evaluate(self.sol)
                 improved = True

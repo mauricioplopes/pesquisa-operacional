@@ -57,4 +57,4 @@ class Solution(Generic[E]):
         return len(self.elements)
     
     def __str__(self):
-        return f"Solution: cost=[{self.cost}], size=[{len(self.elements)}], elements={self.elements}"
+        return f"Solution: cost=[{self.cost}], size=[{len(self.elements)}], elements={sorted(self.elements)}"

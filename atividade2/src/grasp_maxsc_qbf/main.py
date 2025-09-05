@@ -17,7 +17,10 @@ from utils.instance_generator import create_sample_instance
 def run_experiments():
     """Run computational experiments as specified in the activity"""
     
-    filename = create_sample_instance()
+    parent_dir = "../../instances/qbf_sc"
+    filenames = sorted(os.listdir(parent_dir))
+    filenames = [f"{parent_dir}/{f}" for f in filenames]
+
     results = []
     
     # Configuration parameters
@@ -31,37 +34,40 @@ def run_experiments():
     alpha1 = alphas[0]
     
     configs = [
-        ("PADRÃO", alpha1, "first_improving", "standard"),
-        ("PADRÃO+ALPHA", alphas[1], "first_improving", "standard"),
-        ("PADRÃO+BEST", alpha1, "best_improving", "standard"),
-        ("PADRÃO+HC1", alpha1, "first_improving", "random_plus_greedy"),
+        # ("PADRÃO", alpha1, "first_improving", "standard"),
+        # ("PADRÃO+ALPHA", alphas[1], "first_improving", "standard"),
+        # ("PADRÃO+BEST", alpha1, "best_improving", "standard"),
+        # ("PADRÃO+HC1", alpha1, "first_improving", "random_plus_greedy"),
         ("PADRÃO+HC2", alpha1, "first_improving", "sampled_greedy"),
     ]
     
-    for config_name, alpha, local_search, construction in configs:
-        print(f"\nRunning {config_name}...")
-        start_time = time.time()
-        
-        grasp = GRASP_QBF_SC(
-            alpha=alpha, 
-            iterations=iterations, 
-            filename=filename,
-            construction_method=construction,
-            local_search_method=local_search
-        )
-        
-        best_sol = grasp.solve()
-        end_time = time.time()
-        
-        results.append({
-            'config': config_name,
-            'cost': best_sol.cost,
-            'size': len(best_sol),
-            'time': end_time - start_time,
-            'feasible': grasp.obj_function.is_feasible(best_sol)
-        })
-        
-        print(f"Cost: {best_sol.cost}, Size: {len(best_sol)}, Time: {end_time - start_time:.2f}s")
+    for filename in filenames:
+        print(f"File: {filename}")
+        print("-" * 60)
+        for config_name, alpha, local_search, construction in configs:
+            print(f"\nRunning {config_name}...")
+            start_time = time.time()
+            
+            grasp = GRASP_QBF_SC(
+                alpha=alpha, 
+                iterations=iterations, 
+                filename=filename,
+                construction_method=construction,
+                local_search_method=local_search
+            )
+            
+            best_sol = grasp.solve()
+            end_time = time.time()
+            
+            results.append({
+                'config': config_name,
+                'cost': best_sol.cost,
+                'size': len(best_sol),
+                'time': end_time - start_time,
+                'feasible': grasp.obj_function.is_feasible(best_sol)
+            })
+            
+            print(f"Cost: {best_sol.cost}, Size: {len(best_sol)}, Time: {end_time - start_time:.3f}s")
     
     # Print results table
     print("\n" + "=" * 80)

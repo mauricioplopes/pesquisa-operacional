@@ -148,7 +148,7 @@ class AbstractGRASP(ABC, Generic[E]):
                     best_cost = delta_cost
                     best_candidate = c
             
-            if best_candidate != None:
+            if best_candidate is not None:
                 self.CL.remove(best_candidate)
                 self.sol.add(best_candidate)
                 self.obj_function.evaluate(self.sol)
@@ -181,7 +181,7 @@ class AbstractGRASP(ABC, Generic[E]):
                     best_cost = delta_cost
                     best_candidate = c
             
-            if best_candidate:
+            if best_candidate is not None:
                 self.CL.remove(best_candidate)
                 self.sol.add(best_candidate)
                 self.obj_function.evaluate(self.sol)
