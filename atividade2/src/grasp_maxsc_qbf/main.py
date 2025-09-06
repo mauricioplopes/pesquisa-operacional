@@ -26,6 +26,7 @@ def run_experiments():
     # Configuration parameters
     alphas = [0.1, 0.3]  # α₁ and α₂
     iterations = 100  # Reduced for testing
+
     
     print("Running computational experiments...")
     print("=" * 60)
@@ -70,7 +71,8 @@ def run_experiments():
             })
             
             print(f"Cost: {best_sol.cost}, Size: {len(best_sol)}, Time: {end_time - start_time:.3f}s")
-    
+            
+
     # Print results table
     print("\n" + "=" * 80)
     print("RESULTS SUMMARY")

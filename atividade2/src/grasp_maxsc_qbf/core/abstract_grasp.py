@@ -3,6 +3,7 @@ Abstract GRASP metaheuristic class
 """
 
 import random
+import time
 from abc import ABC, abstractmethod
 from typing import List, Generic, TypeVar, Optional
 
@@ -205,6 +206,9 @@ class AbstractGRASP(ABC, Generic[E]):
     def solve(self) -> Solution[E]:
         """Main GRASP procedure"""
         
+        total_time_limit = 1800  # Total time limit in seconds
+        start_total_time_counter = time.time()
+
         self.best_sol = self.create_empty_sol()
         
         for i in range(self.iterations):
@@ -221,6 +225,10 @@ class AbstractGRASP(ABC, Generic[E]):
                 if self.verbose:
                     print(f"(Iter. {i}) BestSol = {self.best_sol}")
         
+            if time.time() - start_total_time_counter > total_time_limit:
+                print("Total time limit reached, stopping this instance.")
+                break
+
         return self.best_sol
     
     def constructive_stop_criteria(self) -> bool:
