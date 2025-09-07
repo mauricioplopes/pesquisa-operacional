@@ -17,7 +17,7 @@ from utils.instance_generator import create_sample_instance
 def run_experiments():
     """Run computational experiments as specified in the activity"""
     
-    parent_dir = "../../instances/qbf_sc"
+    parent_dir = "../../instances/15_qbf_sc_instances"
     filenames = sorted(os.listdir(parent_dir))
     filenames = [f"{parent_dir}/{f}" for f in filenames]
 
