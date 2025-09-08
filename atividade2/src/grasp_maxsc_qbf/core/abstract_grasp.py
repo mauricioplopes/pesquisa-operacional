@@ -227,6 +227,7 @@ class AbstractGRASP(ABC, Generic[E]):
         
             if time.time() - start_total_time_counter > total_time_limit:
                 print("Total time limit reached, stopping this instance.")
+                self.iterations = i # set how many iterations actually run
                 break
 
         return self.best_sol

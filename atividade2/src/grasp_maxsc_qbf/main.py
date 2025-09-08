@@ -40,7 +40,7 @@ def run_experiments():
         ("PADRÃO+BEST", alpha1, "best_improving", "standard"),
         ("PADRÃO+HC1", alpha1, "first_improving", "random_plus_greedy"),
         ("PADRÃO+HC2", alpha1, "first_improving", "sampled_greedy"),
-        ("PADRÃO+HC2", alpha1, "first_improving", "pop_in_construction"),
+        ("PADRÃO+HC3", alpha1, "first_improving", "pop_in_construction"),
     ]
     
     for filename in filenames:
@@ -67,7 +67,8 @@ def run_experiments():
                 'cost': best_sol.cost,
                 'size': len(best_sol),
                 'time': end_time - start_time,
-                'feasible': grasp.obj_function.is_feasible(best_sol)
+                'iterations': grasp.iterations,
+                'feasible': grasp.obj_function.is_feasible(best_sol),
             })
             
             print(f"Cost: {best_sol.cost}, Size: {len(best_sol)}, Time: {end_time - start_time:.3f}s")
@@ -77,12 +78,12 @@ def run_experiments():
     print("\n" + "=" * 80)
     print("RESULTS SUMMARY")
     print("=" * 80)
-    print(f"{'Configuration':<15} {'Cost':<10} {'Size':<6} {'Time(s)':<8} {'Feasible':<10}")
+    print(f"{'Configuration':<15} {'Cost':<10} {'Size':<6} {'Time(s)':<8} {'Iterations':<10} {'Feasible':<10}")
     print("-" * 80)
     
     for result in results:
         print(f"{result['config']:<15} {result['cost']:<10.2f} {result['size']:<6} "
-              f"{result['time']:<8.3f} {result['feasible']:<10}")
+              f"{result['time']:<8.3f} {result['iterations']:<10} {result['feasible']:<10}")
     
     return results
 
