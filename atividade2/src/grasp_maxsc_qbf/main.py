@@ -25,7 +25,7 @@ def run_experiments():
     
     # Configuration parameters
     alphas = [0.1, 0.3]  # α₁ and α₂
-    iterations = 100  # Reduced for testing
+    iterations = 1000  # Reduced for testing
 
     
     print("Running computational experiments...")
@@ -71,7 +71,7 @@ def run_experiments():
                 'feasible': grasp.obj_function.is_feasible(best_sol),
             })
             
-            print(f"Cost: {best_sol.cost}, Size: {len(best_sol)}, Time: {end_time - start_time:.3f}s")
+            print(f"Cost: {best_sol.cost}, Size: {len(best_sol)}, Iterations: {grasp.iterations}, Time: {end_time - start_time:.3f}s")
             
 
     # Print results table
