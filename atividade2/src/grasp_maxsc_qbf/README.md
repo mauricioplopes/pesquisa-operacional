@@ -127,6 +127,9 @@ python main.py instancia.txt
 
 # Com parâmetros personalizados
 python main.py instancia.txt 0.3 100 standard first_improving
+
+# Experimentos - executa todas as instâncias da pasta instances
+python main.py --experiment
 ```
 
 ## ⚙️ Configurações Disponíveis
@@ -135,6 +138,7 @@ python main.py instancia.txt 0.3 100 standard first_improving
 - **`standard`**: GRASP clássico com RCL baseado em α
 - **`random_plus_greedy`**: 30% seleção aleatória + conclusão gulosa
 - **`sampled_greedy`**: Amostra 50% dos candidatos e escolhe o melhor
+- **`pop_in_construction`**: realiza passos de busca local ao longo da construção clássica
 
 ### Métodos de Busca Local
 - **`first_improving`**: Para no primeiro movimento que melhora
